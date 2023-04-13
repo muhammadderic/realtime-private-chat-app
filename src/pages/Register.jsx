@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Add from "../img/add.png";
+import AddAvatar from "../img/addAvatar.png";
 
 function Register() {
   return (
@@ -15,7 +15,7 @@ function Register() {
           <input required type="password" placeholder="Password" />
           <input required style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
-            <img src={Add} alt="" />
+            <img src={AddAvatar} alt="" />
             <span>Add an avatar</span>
           </label>
           <button>Sign up</button>
