@@ -9,7 +9,7 @@ body {
 }
 
 .formContainer {
-  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  background-color: #a7bcff;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -92,5 +92,23 @@ body {
       font-size: 12px;
       margin-top: 10px;
     }
+  }
+}
+
+.home {
+  background-color: #a7bcff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 65%;
+    height: 80%;
+    display: flex;
+    overflow: hidden;
+
   }
 }
