@@ -1,7 +1,9 @@
+import Register from "./pages/Register";
+
 function App() {
   return (
     <>
-      Starting create Deric Chat by Muhammad Deric
+      <Register />
     </>
   );
 }
