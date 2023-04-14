@@ -2,13 +2,14 @@ import { auth, storage, db } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddAvatar from "../img/addAvatar.png";
 import { useState } from "react";
 
 function Register() {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +44,9 @@ function Register() {
                   email,
                   photoURL: downloadURL,
                 });
+                // Create user chats
+                await setDoc(doc(db, "userChats", res.user.uid), {});
+                navigate("/");
               } catch (error) {
                 setErr(true);
                 setLoading(false);
