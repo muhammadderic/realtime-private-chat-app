@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function Register() {
   const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,6 +64,7 @@ function Register() {
             <span>Add an avatar</span>
           </label>
           <button>Sign up</button>
+          {loading && <span className="loading">Uploading and compressing the image please wait...</span>}
           {err && <span className="error-auth">Something went wrong</span>}
         </form>
         <p>
