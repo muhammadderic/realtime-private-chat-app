@@ -1,16 +1,18 @@
-import { auth, storage } from "../firebase";
+import { auth, storage, db } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import AddAvatar from "../img/addAvatar.png";
 import { useState } from "react";
 
 function Register() {
   const [err, setErr] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
@@ -34,8 +36,16 @@ function Register() {
                   displayName,
                   photoURL: downloadURL,
                 })
+                // Create user on firestore
+                await setDoc(doc(db, "users", res.user.uid), {
+                  uid: res.user.uid,
+                  displayName,
+                  email,
+                  photoURL: downloadURL,
+                });
               } catch (error) {
                 setErr(true);
+                setLoading(false);
                 console.error(error.message);
               }
             })
@@ -43,6 +53,7 @@ function Register() {
 
     } catch (error) {
       setErr(true);
+      setLoading(false);
       console.error(error.message);
     }
   }
