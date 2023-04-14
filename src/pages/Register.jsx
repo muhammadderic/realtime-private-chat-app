@@ -1,5 +1,6 @@
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, storage } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Link } from "react-router-dom";
 import AddAvatar from "../img/addAvatar.png";
 import { useState } from "react";
@@ -9,25 +10,36 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const displayName = e.target[0].value;
+    const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
-    // const file = e.target[3].files[0];
+    const file = e.target[3].files[0];
 
     try {
       // Create User
-      console.log(process.env.REACT_APP_FIREBASE_KEY);
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed in 
-          const user = userCredential.user;
-          console.log(user);
+      const res = await createUserWithEmailAndPassword(auth, email, password)
+
+      // Create a unique image name
+      const date = new Date().getTime();
+      const storageRef = ref(storage, `${displayName + date}`);
+
+      await uploadBytesResumable(storageRef, file)
+        .then(() => {
+          getDownloadURL(storageRef)
+            .then(async (downloadURL) => {
+              try {
+                // Update profile
+                await updateProfile(res.user, {
+                  displayName,
+                  photoURL: downloadURL,
+                })
+              } catch (error) {
+                setErr(true);
+                console.error(error.message);
+              }
+            })
         })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log({ errCode: errorCode, errMessage: errorMessage });
-        });
+
     } catch (error) {
       setErr(true);
       console.error(error.message);
