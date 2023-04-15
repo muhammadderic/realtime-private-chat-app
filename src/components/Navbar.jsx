@@ -1,3 +1,6 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+
 function Navbar() {
   return (
     <div className='navbar'>
@@ -10,7 +13,7 @@ function Navbar() {
           <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"></path>
         </svg>
         <span>user name</span>
-        <button>logout</button>
+        <button onClick={() => signOut(auth)}>logout</button>
       </div>
     </div>
   )
