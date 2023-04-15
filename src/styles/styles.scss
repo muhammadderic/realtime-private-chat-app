@@ -179,8 +179,16 @@ body {
           align-items: center;
           gap: 5px;
 
-          span {
-            font-size: .8rem;
+          // span {
+          //   font-size: .8rem;
+          // }
+
+          img {
+            background-color: #ddddf7;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            object-fit: cover;
           }
 
           button {
